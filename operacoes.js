@@ -15,10 +15,8 @@ function registrarMovimentacao(cpf, tipo, valor) {
 }
 
 // Função para solicitar um depósito
-function solicitarDeposito() {
-    const cpf = readlineSync.question(
-        "Digite seu CPF para realizar o depósito: ",
-    );
+function solicitarDeposito(cpfUsuario) {
+    const cpf = cpfUsuario
     const valor = parseFloat(
         readlineSync.question("Digite o valor do depósito: R$ "),
     );
@@ -43,10 +41,8 @@ function solicitarDeposito() {
 }
 
 // Função para visualizar o saldo
-function visualizarSaldo() {
-    const cpf = readlineSync.question(
-        "Digite seu CPF para visualizar o saldo: ",
-    );
+function visualizarSaldo(cpfUsuario) {
+    const cpf = cpfUsuario
     const usuarios = carregarDados(caminhoArquivoUsuarios);
     const usuario = usuarios.find((user) => user.cpf === cpf);
 
@@ -59,10 +55,8 @@ function visualizarSaldo() {
 }
 
 // Função para exibir o extrato com um layout organizado
-function exibirExtrato() {
-    const cpf = readlineSync.question(
-        "Digite seu CPF para visualizar o extrato: ",
-    );
+function exibirExtrato(cpfUsuario) {
+    const cpf = cpfUsuario
     const movimentacoes = carregarDados(caminhoArquivoMovimentacoes);
     const movimentacoesUsuario = movimentacoes.filter((mov) => mov.cpf === cpf);
 
@@ -90,8 +84,8 @@ function exibirExtrato() {
 }
 
 // Função para realizar uma transferência bancária
-function realizarTransferencia() {
-    const cpfRemetente = readlineSync.question("Digite seu CPF: ");
+function realizarTransferencia(cpfUsuario) {
+    const cpfRemetente = cpfUsuario;
     const cpfDestinatario = readlineSync.question(
         "Digite o CPF do destinatário: ",
     );
