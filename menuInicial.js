@@ -2,6 +2,7 @@ const readlineSync = require("readline-sync");
 const fs = require("fs");
 const { calcularPorquinho } = require("./porquinho");
 const { solicitarEmprestimo } = require("./emprestimo");
+const { simularDeposito } = require('./poupanca');
 const {
     solicitarDeposito,
     visualizarSaldo,
@@ -9,6 +10,8 @@ const {
     realizarTransferencia,
 } = require("./operacoes");
 const { iniciarChatSAC } = require("./sac");
+
+let cpfUsuario = ''
 
 const caminhoArquivoUsuarios = "./usuarios.txt";
 
@@ -91,6 +94,7 @@ function login() {
     const usuario = usuarios.find(
         (user) => user.cpf === cpf && user.senha === senha,
     );
+    cpfUsuario = usuario.cpf
 
     if (!usuario) {
         console.log("Usuário não encontrado ou senha incorreta.\n");
@@ -151,19 +155,19 @@ function exibirOperacoesBasicas(usuario) {
 
         switch (opcao) {
             case 1:
-                solicitarDeposito(); // Chama a função de depósito
+                solicitarDeposito(cpfUsuario); // Chama a função de depósito
                 finalizarFuncao();
                 break;
             case 2:
-                visualizarSaldo(); // Exibe o saldo do usuário
+                visualizarSaldo(cpfUsuario); // Exibe o saldo do usuário
                 finalizarFuncao();
                 break;
             case 3:
-                exibirExtrato(); // Exibe o extrato do usuário
+                exibirExtrato(cpfUsuario); // Exibe o extrato do usuário
                 finalizarFuncao();
                 break;
             case 4:
-                realizarTransferencia(); // Chama a função de transferência bancária
+                realizarTransferencia(cpfUsuario); // Chama a função de transferência bancária
                 finalizarFuncao();
                 break;
             case 5:
@@ -196,7 +200,7 @@ function exibirProdutosEServicos(usuario) {
             finalizarFuncao();
             break;
         case 2:
-            solicitarDeposito(); // Chama a função de poupança
+            simularDeposito(); // Chama a função de poupança
             finalizarFuncao();
             break;
         case 3:

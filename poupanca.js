@@ -11,7 +11,7 @@ function calcularPoupanca(depositoInicial, meses) {
     return saldo;
 }
 
-function solicitarDeposito() {
+function simularDeposito() {
     const depositoInicial = parseFloat(
         readlineSync.question("Digite o valor do depósito inicial: R$ "),
     );
@@ -28,4 +28,4 @@ function solicitarDeposito() {
 }
 
 
-module.exports = { solicitarDeposito };
+module.exports = { simularDeposito };
