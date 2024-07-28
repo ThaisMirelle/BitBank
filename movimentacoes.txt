@@ -1,0 +1,20 @@
+[
+  {
+    "data": "2024-07-28T08:17:25.928Z",
+    "cpf": "11111111111",
+    "tipo": "Depósito",
+    "valor": 30
+  },
+  {
+    "data": "2024-07-28T08:19:10.913Z",
+    "cpf": "11111111111",
+    "tipo": "Transferência Enviada",
+    "valor": 35
+  },
+  {
+    "data": "2024-07-28T08:19:10.914Z",
+    "cpf": "22222222222",
+    "tipo": "Transferência Recebida",
+    "valor": 35
+  }
+]

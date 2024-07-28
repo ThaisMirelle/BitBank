@@ -3,6 +3,12 @@
     "nome": "Thais",
     "cpf": "11111111111",
     "senha": "123456",
-    "saldo": 500
+    "saldo": 495
+  },
+  {
+    "nome": "Lucas",
+    "cpf": "22222222222",
+    "senha": "123456",
+    "saldo": 35
   }
 ]

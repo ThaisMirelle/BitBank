@@ -24,10 +24,12 @@ function carregarDados(caminhoArquivo) {
     return [];
 }
 
+// Função de validação de CPF
 function validarCPF(cpf) {
     return /^\d{11}$/.test(cpf);
 }
 
+// Função de validação de senha
 function validarSenha(senha) {
     if (senha.length !== 6) return false;
     const primeiraLetra = senha[0];
@@ -72,7 +74,7 @@ function tCadastro() {
         return;
     }
 
-    const usuario = { nome, cpf, senha, saldo: 0 }; // Adicionando saldo inicial
+    const usuario = { nome, cpf, senha, saldo: 0 }; 
     usuarios.push(usuario);
     salvarDados(usuarios, caminhoArquivoUsuarios);
     console.log("Usuário cadastrado com sucesso!\n");
@@ -96,7 +98,7 @@ function login() {
     }
 
     console.log("Login realizado com sucesso!\n");
-    return usuario; // Retorna o usuário para acesso ao saldo e outras funcionalidades
+    return usuario; 
 }
 
 // Funções para navegação no menu
@@ -114,13 +116,13 @@ function categoria(usuario) {
 
         switch (opcao) {
             case 1:
-                exibirOperacoesBasicas(usuario); // Passando o usuário para as operações básicas
+                exibirOperacoesBasicas(usuario); 
                 break;
             case 2:
-                exibirProdutosEServicos(usuario); // Passando o usuário para os produtos e serviços
+                exibirProdutosEServicos(usuario); 
                 break;
             case 3:
-                exibirAutoAtendimento(usuario); // Passando o usuário para o autoatendimento
+                exibirAutoAtendimento(usuario); 
                 break;
             case 4:
                 return;
@@ -131,6 +133,7 @@ function categoria(usuario) {
     }
 }
 
+// Menu de operações básicas
 function exibirOperacoesBasicas(usuario) {
     bigSpacing();
     while (true) {
@@ -172,6 +175,7 @@ function exibirOperacoesBasicas(usuario) {
     }
 }
 
+// Menu de produtos e serviços
 function exibirProdutosEServicos(usuario) {
     bigSpacing();
     console.log(
@@ -188,15 +192,15 @@ function exibirProdutosEServicos(usuario) {
 
     switch (produtosServicos) {
         case 1:
-            solicitarEmprestimo();
+            solicitarEmprestimo(); // Chama a função de empréstimo
             finalizarFuncao();
             break;
         case 2:
-            solicitarDeposito();
+            solicitarDeposito(); // Chama a função de poupança
             finalizarFuncao();
             break;
         case 3:
-            calcularPorquinho();
+            calcularPorquinho(); // Chama a função de porquinho
             finalizarFuncao();
             break;
         case 4:
@@ -204,11 +208,12 @@ function exibirProdutosEServicos(usuario) {
             break;
         default:
             console.log("Opção inválida.");
-            exibirProdutosEServicos(usuario); // Passa o usuário para o menu de produtos e serviços
+            exibirProdutosEServicos(usuario); 
             break;
     }
 }
 
+// Menu de auto-atendimento
 function exibirAutoAtendimento(usuario) {
     bigSpacing();
     console.log("Autoatendimento: \n" + "1- SAC \n" + "2- Voltar");
@@ -222,11 +227,11 @@ function exibirAutoAtendimento(usuario) {
             iniciarChatSAC(); // Chama a função do SAC
             break;
         case 2:
-            categoria(usuario); // Passa o usuário para voltar ao menu
+            categoria(usuario); 
             break;
         default:
             console.log("Opção inválida.");
-            exibirAutoAtendimento(usuario); // Passa o usuário para o autoatendimento
+            exibirAutoAtendimento(usuario); 
             break;
     }
 }
