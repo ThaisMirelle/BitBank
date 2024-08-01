@@ -1,3 +1,4 @@
+import terminalImage from 'terminal-image';
 //const readlineSync = require("readline-sync");
 import readlineSync from "readline-sync";
 //chalk
@@ -22,7 +23,11 @@ import {
     exibirExtrato,
     realizarTransferencia,
 } from "./operacoes.js"
-
+import { 
+    abertura,
+    logo,
+} from "./logos.js"
+console.log(await terminalImage.file('bitbank.png', {width: '100%', height: '100%'}));
 //const { iniciarChatSAC } = require("./sac");
 import { iniciarChatSAC } from "./sac.js";
 
@@ -101,15 +106,17 @@ function login() {
     console.log("Login");
     const cpf = readlineSync.question(chalk.yellowBright("Digite seu CPF sem pontos ou traços: "));
     const senha = readlineSync.question(chalk.yellowBright("Digite sua senha: "));
-
-    const usuarios = carregarDados(caminhoArquivoUsuarios);
-    const usuario = usuarios.find(
-        (user) => user.cpf === cpf && user.senha === senha,
-    );
-    cpfUsuario = usuario.cpf
-
+    try{
+        const usuarios = carregarDados(caminhoArquivoUsuarios);
+        const usuario = usuarios.find(
+            (user) => user.cpf === cpf && user.senha === senha,
+        );
+        cpfUsuario = usuario.cpf
+    }catch(error){
+        console.log(chalk.white(chalk.bgRed("Usuário não encontrado ou senha incorreta.\n")))
+    }
     if (!usuario) {
-        console.log(chalk.White(chalk.bgRed("Usuário não encontrado ou senha incorreta.\n")));
+        console.log(chalk.white(chalk.bgRed("Usuário não encontrado ou senha incorreta.\n")));
         return false;
     }
 
@@ -122,7 +129,7 @@ function categoria(usuario) {
     bigSpacing();
     while (true) {
         const opcao = Number(
-            readlineSync.question(`Banco Softex \n
+            readlineSync.question(`Banco ${chalk.green.bold('BitBank')} \n
         1- Operações Financeiras Básicas \n
         2- Produtos e Serviços \n
         3- Autoatendimento \n
@@ -144,7 +151,7 @@ function categoria(usuario) {
             case 4:
                 inicial();
             default:
-                console.clear()
+                
                 console.log(chalk.white(chalk.bgRed("Opção inválida. Tente novamente.")));
                 break;
         }
@@ -154,6 +161,7 @@ function categoria(usuario) {
 // Menu de operações básicas
 function exibirOperacoesBasicas(usuario) {
     bigSpacing();
+    logo();
     while (true) {
         const opcao = Number(
             readlineSync.question(
@@ -188,8 +196,8 @@ function exibirOperacoesBasicas(usuario) {
             case 5:
                 return;
             default:
-                console.clear();
-                console.log(chalk.White(chalk.bgRed("Opção inválida.\n")));
+                
+                console.log(chalk.white(chalk.bgRed("Opção inválida.\n")));
                 break;
         }
     }
@@ -197,7 +205,7 @@ function exibirOperacoesBasicas(usuario) {
 
 // Menu de produtos e serviços
 function exibirProdutosEServicos(usuario) {
-    bigSpacing();
+    logo();
     console.log(
         "Produtos e Serviços: \n" +
             "1- Empréstimo \n" +
@@ -235,6 +243,7 @@ function exibirProdutosEServicos(usuario) {
 
 // Menu de auto-atendimento
 function exibirAutoAtendimento(usuario) {
+    logo();
     bigSpacing();
     console.log("Autoatendimento: \n" + "1- SAC \n" + "2- Voltar");
 
@@ -271,21 +280,19 @@ function bigSpacing() {
 }
 
 // Menu principal
-function inicial() {
-    bigSpacing();
-    let escolha = Number(
-        readlineSync.question(`Bem-vindo ao BitBank . \n`+
-        chalk.yellow(`
-        Para continuar, é preciso estar logado.\n`)+
-        `Realize seu login, ou crie um novo cadastro selecionando uma das opções abaixo:\n
-        1. Login\n
-        2. Cadastro \n
-        3. Sair \n `+
-        chalk.yellowBright(`
-        Digite sua opção: `)),
+async function inicial() {
+    abertura();
+    const opcao = Number(
+        readlineSync.question(
+            chalk.bold.green("BitBank \n") +
+                "1- Cadastrar Novo Usuário \n" +
+                "2- Login \n" +
+                "3- Sair \n" +
+                "Digite o número do que desejar: ",
+        ),
     );
 
-    switch (escolha) {
+    switch (opcao) {
         case 1:
             const usuario = login();
             if (usuario) {
@@ -299,12 +306,11 @@ function inicial() {
             inicial();
             break;
         case 3:
-            console.log("Saindo...");
+            console.log(chalk.red("Saindo..."));
             break;
         default:
-            console.clear();
-            console.log(chalk.White(chalk.bgRed("Opção inválida. Tente novamente.")));
-            inicial();
+            
+        console.log(chalk.red("Opção inválida. Tente novamente."));
             break;
     }
 }
