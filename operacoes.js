@@ -1,6 +1,10 @@
-const fs = require("fs");
-const readlineSync = require("readline-sync");
+//const fs = require("fs");
+import fs from 'fs';
+//const readlineSync = require("readline-sync");
+import readlineSync from "readline-sync";
+import chalk from 'chalk'
 
+//consts sem require: não modifica. não funciona com import.
 const caminhoArquivoUsuarios = "./usuarios.txt";
 const caminhoArquivoMovimentacoes = "./movimentacoes.txt";
 
@@ -15,14 +19,14 @@ function registrarMovimentacao(cpf, tipo, valor) {
 }
 
 // Função para solicitar um depósito
-function solicitarDeposito(cpfUsuario) {
+export function solicitarDeposito(cpfUsuario) {
     const cpf = cpfUsuario
     const valor = parseFloat(
         readlineSync.question("Digite o valor do depósito: R$ "),
     );
 
     if (isNaN(valor) || valor <= 0) {
-        console.log("Valor inválido. O depósito deve ser um número positivo.");
+        console.log(chalk.white(chalk.bgRed("Valor inválido. O depósito deve ser um número positivo.")));
         return;
     }
 
@@ -30,24 +34,24 @@ function solicitarDeposito(cpfUsuario) {
     const usuario = usuarios.find((user) => user.cpf === cpf);
 
     if (!usuario) {
-        console.log("Usuário não encontrado.");
+        console.log(chalk.white(chalk.bgRed("Usuário não encontrado.")));
         return;
     }
 
     usuario.saldo += valor;
     registrarMovimentacao(cpf, "Depósito", valor);
     salvarDados(usuarios, caminhoArquivoUsuarios);
-    console.log(`Depósito de R$ ${valor.toFixed(2)} realizado com sucesso!`);
+    console.log(chalk.greenBright(`Depósito de R$ ${valor.toFixed(2)} realizado com sucesso!`));
 }
 
 // Função para visualizar o saldo
-function visualizarSaldo(cpfUsuario) {
+export function visualizarSaldo(cpfUsuario) {
     const cpf = cpfUsuario
     const usuarios = carregarDados(caminhoArquivoUsuarios);
     const usuario = usuarios.find((user) => user.cpf === cpf);
 
     if (!usuario) {
-        console.log("Usuário não encontrado.");
+        console.log(chalk.white(chalk.bgRed("Usuário não encontrado.")));
         return;
     }
 
@@ -55,13 +59,13 @@ function visualizarSaldo(cpfUsuario) {
 }
 
 // Função para exibir o extrato com um layout organizado
-function exibirExtrato(cpfUsuario) {
+export function exibirExtrato(cpfUsuario) {
     const cpf = cpfUsuario
     const movimentacoes = carregarDados(caminhoArquivoMovimentacoes);
     const movimentacoesUsuario = movimentacoes.filter((mov) => mov.cpf === cpf);
 
     if (movimentacoesUsuario.length === 0) {
-        console.log("Nenhuma movimentação encontrada para o CPF informado.");
+        console.log(chalk.white(chalk.bgred("Nenhuma movimentação encontrada para o CPF informado.")));
         return;
     }
 
@@ -84,19 +88,19 @@ function exibirExtrato(cpfUsuario) {
 }
 
 // Função para realizar uma transferência bancária
-function realizarTransferencia(cpfUsuario) {
+export function realizarTransferencia(cpfUsuario) {
     const cpfRemetente = cpfUsuario;
     const cpfDestinatario = readlineSync.question(
         "Digite o CPF do destinatário: ",
     );
     const valor = parseFloat(
-        readlineSync.question("Digite o valor da transferência: R$ "),
+        readlineSync.question("Digite o valor da transferência: R$ \n"),
     );
 
     if (isNaN(valor) || valor <= 0) {
-        console.log(
+        console.log(chalk.white(chalk.bgRed(
             "Valor inválido. A transferência deve ser um número positivo.",
-        );
+        )));
         return;
     }
 
@@ -105,17 +109,17 @@ function realizarTransferencia(cpfUsuario) {
     const destinatario = usuarios.find((user) => user.cpf === cpfDestinatario);
 
     if (!remetente) {
-        console.log("Remetente não encontrado.");
+        console.log(chalk.white(chalk.bgRed("Remetente não encontrado.")));
         return;
     }
 
     if (!destinatario) {
-        console.log("Destinatário não encontrado.");
+        console.log(chalk.white(chalk.bgRed("Destinatário não encontrado.")));
         return;
     }
 
     if (remetente.saldo < valor) {
-        console.log("Saldo insuficiente para a transferência.");
+        console.log(chalk.white(chalk.bgRed("Saldo insuficiente para a transferência.")));
         return;
     }
 
@@ -146,9 +150,3 @@ function carregarDados(caminhoArquivo) {
     return [];
 }
 
-module.exports = {
-    solicitarDeposito,
-    visualizarSaldo,
-    exibirExtrato,
-    realizarTransferencia,
-};

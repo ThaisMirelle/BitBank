@@ -1,15 +1,30 @@
-const readlineSync = require("readline-sync");
-const fs = require("fs");
-const { calcularPorquinho } = require("./porquinho");
-const { solicitarEmprestimo } = require("./emprestimo");
-const { simularDeposito } = require('./poupanca');
-const {
+//const readlineSync = require("readline-sync");
+import readlineSync from "readline-sync";
+//chalk
+import chalk from "chalk";
+//const fs = require("fs");
+import fs from 'fs';
+//const { calcularPorquinho } = require("./porquinho");
+import { calcularPorquinho } from "./porquinho.js";
+//const { solicitarEmprestimo } = require("./emprestimo");
+import {solicitarEmprestimo} from "./emprestimo.js";
+//const { simularDeposito } = require('./poupanca');
+import { simularDeposito } from "./poupanca.js";
+// const {
+//     solicitarDeposito,
+//     visualizarSaldo,
+//     exibirExtrato,
+//     realizarTransferencia,
+// } = require("./operacoes");
+import {
     solicitarDeposito,
     visualizarSaldo,
     exibirExtrato,
     realizarTransferencia,
-} = require("./operacoes");
-const { iniciarChatSAC } = require("./sac");
+} from "./operacoes.js"
+
+//const { iniciarChatSAC } = require("./sac");
+import { iniciarChatSAC } from "./sac.js";
 
 let cpfUsuario = ''
 
@@ -45,12 +60,12 @@ function validarSenha(senha) {
 // Funções de cadastro e login
 function tCadastro() {
     console.log("Cadastrar Novo Usuário");
-    const nome = readlineSync.question("Digite seu nome: ");
+    const nome = readlineSync.question(chalk.yellowBright("Digite seu nome: "));
     let cpf;
     while (true) {
-        cpf = readlineSync.question("Digite seu CPF sem pontos ou traços: ");
+        cpf = readlineSync.question(chalk.yellowBright("Digite seu CPF sem pontos ou traços: "));
         if (!validarCPF(cpf)) {
-            console.log("CPF inválido. Deve conter exatamente 11 dígitos.");
+            console.log(chalk.bgRed("CPF inválido. Deve conter exatamente 11 dígitos."));
         } else {
             break;
         }
@@ -58,14 +73,13 @@ function tCadastro() {
 
     let senha;
     while (true) {
-        senha = readlineSync.question(
-            "Digite uma senha com 6 dígitos (não sequenciais): ",
-            { hideEchoBack: true },
-        );
+        senha = readlineSync.question(chalk.yellowBright(
+            "Digite uma senha com 6 dígitos (não sequenciais): "
+        ));
         if (!validarSenha(senha)) {
-            console.log(
+            console.log(chalk.white(chalk.bgRed(
                 "Senha inválida. Deve ter 6 dígitos e não pode ser sequencial.",
-            );
+            )));
         } else {
             break;
         }
@@ -80,15 +94,13 @@ function tCadastro() {
     const usuario = { nome, cpf, senha, saldo: 0 }; 
     usuarios.push(usuario);
     salvarDados(usuarios, caminhoArquivoUsuarios);
-    console.log("Usuário cadastrado com sucesso!\n");
+    console.log(chalk.greenBright("Usuário cadastrado com sucesso!\n"));
 }
 
 function login() {
     console.log("Login");
-    const cpf = readlineSync.question("Digite seu CPF sem pontos ou traços: ");
-    const senha = readlineSync.question("Digite sua senha: ", {
-        hideEchoBack: true,
-    });
+    const cpf = readlineSync.question(chalk.yellowBright("Digite seu CPF sem pontos ou traços: "));
+    const senha = readlineSync.question(chalk.yellowBright("Digite sua senha: "));
 
     const usuarios = carregarDados(caminhoArquivoUsuarios);
     const usuario = usuarios.find(
@@ -97,11 +109,11 @@ function login() {
     cpfUsuario = usuario.cpf
 
     if (!usuario) {
-        console.log("Usuário não encontrado ou senha incorreta.\n");
+        console.log(chalk.White(chalk.bgRed("Usuário não encontrado ou senha incorreta.\n")));
         return false;
     }
 
-    console.log("Login realizado com sucesso!\n");
+    console.log(chalk.greenBright("Login realizado com sucesso!\n"));
     return usuario; 
 }
 
@@ -114,8 +126,9 @@ function categoria(usuario) {
         1- Operações Financeiras Básicas \n
         2- Produtos e Serviços \n
         3- Autoatendimento \n
-        4- Voltar \n
-        Digite o número do que desejar: `),
+        4- Voltar \n` +
+        chalk.yellowBright(`
+        Digite o número do que desejar: `)),
         );
 
         switch (opcao) {
@@ -129,9 +142,10 @@ function categoria(usuario) {
                 exibirAutoAtendimento(usuario); 
                 break;
             case 4:
-                return;
+                inicial();
             default:
-                console.log("Opção inválida. Tente novamente.");
+                console.clear()
+                console.log(chalk.white(chalk.bgRed("Opção inválida. Tente novamente.")));
                 break;
         }
     }
@@ -148,8 +162,9 @@ function exibirOperacoesBasicas(usuario) {
                     "2- Visualização de Saldo \n" +
                     "3- Extrato \n" +
                     "4- Transferência Bancária \n" +
-                    "5- Voltar \n" +
-                    "Digite o número do que desejar: ",
+                    "5- Voltar \n" + 
+                    chalk.yellowBright(
+                    "Digite o número do que desejar: "),
             ),
         );
 
@@ -173,7 +188,8 @@ function exibirOperacoesBasicas(usuario) {
             case 5:
                 return;
             default:
-                console.log("Opção inválida.\n");
+                console.clear();
+                console.log(chalk.White(chalk.bgRed("Opção inválida.\n")));
                 break;
         }
     }
@@ -191,7 +207,7 @@ function exibirProdutosEServicos(usuario) {
     );
 
     const produtosServicos = Number(
-        readlineSync.question("Digite o número do que desejar: "),
+        readlineSync.question(chalk.yellowBright("Digite o número do que desejar: ")),
     );
 
     switch (produtosServicos) {
@@ -211,7 +227,7 @@ function exibirProdutosEServicos(usuario) {
             categoria(usuario); // Passa o usuário para voltar ao menu
             break;
         default:
-            console.log("Opção inválida.");
+            console.log(chalk.white(chalk.bgRed("Opção inválida.")));
             exibirProdutosEServicos(usuario); 
             break;
     }
@@ -223,7 +239,7 @@ function exibirAutoAtendimento(usuario) {
     console.log("Autoatendimento: \n" + "1- SAC \n" + "2- Voltar");
 
     const autoAtendimento = Number(
-        readlineSync.question("Digite o número do que desejar: "),
+        readlineSync.question(chalk.yellowBright("Digite o número do que desejar: ")),
     );
 
     switch (autoAtendimento) {
@@ -234,16 +250,16 @@ function exibirAutoAtendimento(usuario) {
             categoria(usuario); 
             break;
         default:
-            console.log("Opção inválida.");
+            console.log(chalk.white(chalk.bgRed("Opção inválida.")));
             exibirAutoAtendimento(usuario); 
             break;
     }
 }
 
 function finalizarFuncao() {
-    const opcao = readlineSync.question(
-        "Pressione Enter para voltar ao menu anterior ou digite 'sair' para sair: ",
-    );
+    const opcao = readlineSync.question(chalk.yellowBright(
+        "Pressione Enter para voltar ao menu anterior ou digite 'sair' para sair:\n ",
+    ));
     if (opcao.toLowerCase() === "sair") {
         process.exit();
     }
@@ -258,13 +274,15 @@ function bigSpacing() {
 function inicial() {
     bigSpacing();
     let escolha = Number(
-        readlineSync.question(`Bem-vindo ao Banco Softex . \n
-        Para continuar, é preciso estar logado.\n
-        Realize seu login, ou crie um novo cadastro selecionando uma das opções abaixo:\n
+        readlineSync.question(`Bem-vindo ao BitBank . \n`+
+        chalk.yellow(`
+        Para continuar, é preciso estar logado.\n`)+
+        `Realize seu login, ou crie um novo cadastro selecionando uma das opções abaixo:\n
         1. Login\n
         2. Cadastro \n
-        3. Sair \n
-        Digite sua opção: `),
+        3. Sair \n `+
+        chalk.yellowBright(`
+        Digite sua opção: `)),
     );
 
     switch (escolha) {
@@ -284,7 +302,8 @@ function inicial() {
             console.log("Saindo...");
             break;
         default:
-            console.log("Opção inválida. Tente novamente.");
+            console.clear();
+            console.log(chalk.White(chalk.bgRed("Opção inválida. Tente novamente.")));
             inicial();
             break;
     }

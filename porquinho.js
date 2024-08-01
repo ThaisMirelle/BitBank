@@ -1,7 +1,8 @@
-const readlineSync = require("readline-sync");
+//const readlineSync = require("readline-sync");
+import readlineSync from "readline-sync";
 const CDI = 13.04; // Taxa do CDI em percentual
 
-function calcularPorquinho() {
+export function calcularPorquinho() {
     const inicial = readlineSync.question("Digite o investimento inicial: R$ ");
     const mensal = readlineSync.question("Digite o investimento mensal: R$ ");
     const numMeses = readlineSync.question("Digite o número de meses: ");
@@ -38,7 +39,3 @@ function calcularJurosCompostos(
     );
 }
 
-// Exportando a função
-module.exports = {
-    calcularPorquinho,
-};

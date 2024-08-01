@@ -3,24 +3,36 @@
     "nome": "Thais",
     "cpf": "11111111111",
     "senha": "123456",
-    "saldo": 500
+    "saldo": 570
   },
   {
     "nome": "Lucas",
     "cpf": "22222222222",
     "senha": "123456",
-    "saldo": 35
+    "saldo": 45
   },
   {
     "nome": "g",
     "cpf": "12345678912",
     "senha": "123456",
-    "saldo": 2945
+    "saldo": 2930
   },
   {
     "nome": "Ad",
     "cpf": "33333333333",
     "senha": "123456",
     "saldo": 2500
+  },
+  {
+    "nome": "felipe manteigas",
+    "cpf": "88888888888",
+    "senha": "123456",
+    "saldo": 0
+  },
+  {
+    "nome": "jose barros",
+    "cpf": "99999999999",
+    "senha": "123456",
+    "saldo": 0
   }
 ]

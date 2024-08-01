@@ -1,7 +1,8 @@
-const readlineSync = require("readline-sync");
+//const readlineSync = require("readline-sync");
+import readlineSync from "readline-sync";
 
 // Função para o chat do SAC
-function iniciarChatSAC() {
+export function iniciarChatSAC() {
     const opcoes = [
         "Horário de funcionamento",
         "Como faço um depósito?",
@@ -32,7 +33,3 @@ function iniciarChatSAC() {
         console.log("Bot: " + respostas[indice]);
     }
 }
-
-module.exports = {
-    iniciarChatSAC
-};

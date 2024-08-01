@@ -1,4 +1,5 @@
-const readlineSync = require("readline-sync");
+//const readlineSync = require("readline-sync");
+import readlineSync from "readline-sync"
 
 function calcularValorEmprestimo(depositos) {
     // Calculo de média dos depósitos dos últimos 6 meses
@@ -39,7 +40,7 @@ function solicitarDepositos() {
     return depositos;
 }
 
-function solicitarEmprestimo() {
+export function solicitarEmprestimo() {
     const depositos = solicitarDepositos();
     const valorEmprestimo = calcularValorEmprestimo(depositos);
 
@@ -62,7 +63,3 @@ function solicitarEmprestimo() {
         `O valor total pago ao final do empréstimo será de R$ ${valorTotalPago.toFixed(2)}.`,
     );
 }
-
-module.exports = {
-    solicitarEmprestimo,
-};

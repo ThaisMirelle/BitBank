@@ -1,4 +1,5 @@
-const readlineSync = require("readline-sync");
+//const readlineSync = require("readline-sync");
+import readlineSync from "readline-sync"
 
 function calcularPoupanca(depositoInicial, meses) {
     const taxaJurosMensal = 0.53 / 100; // Taxa de juros de 0,5% ao mês, média do ano de 2024 até o mês de julho
@@ -11,7 +12,7 @@ function calcularPoupanca(depositoInicial, meses) {
     return saldo;
 }
 
-function simularDeposito() {
+export function simularDeposito() {
     const depositoInicial = parseFloat(
         readlineSync.question("Digite o valor do depósito inicial: R$ "),
     );
@@ -27,5 +28,3 @@ function simularDeposito() {
     );
 }
 
-
-module.exports = { simularDeposito };
